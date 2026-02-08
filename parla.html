@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      color: #fff;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+
+    .profile { text-align: center; margin-bottom: 25px; }
+    .profile img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 20px rgba(255,105,135,0.6);
+    }
+    .profile h2 { margin: 15px 0 5px; font-weight: normal; }
+    .profile span { font-size: 14px; opacity: 0.8; }
+
+    .terminal {
+      background: #0d1117;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 260px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .cursor { display:inline-block; width:8px; background:#fff; margin-left:2px; animation:blink 1s infinite; }
+    @keyframes blink { 50% {opacity:0;} }
+
+    #surprise {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    #surprise video {
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255,105,135,0.6);
+      opacity: 0;
+      transition: opacity 2s;
+    }
+
+    #revealButton {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #ff6584;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    #revealButton:hover { transform: scale(1.1); }
+
+    .footer { text-align:center; margin-top:20px; font-size:14px; opacity:0.85; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="profile">
+      <img src="parla.jpg" alt="Me">
+      <h2>Hi, it's me 👋</h2>
+      <span>ye name az mazlom </span>
+    </div>
+
+    <div class="terminal" id="terminal"></div>
+    <span class="cursor"></span>
+
+    <!-- Reveal button -->
+    <button id="revealButton"> bezan ino eshq koni ❤️</button>
+
+    <!-- Surprise video -->
+    <div id="surprise">
+      <video id="surpriseVideo" src="gorbe.mp4" muted></video>
+      <audio id="loveSong" src="ahang2.mp3"></audio>
+    </div>
+
+    <div class="footer">
+      Built with ❤️ & a little bit of Python mindset
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+      "salammmm azzm ❤️",
+
+      "hoselam sar rafte bod barat y chizaei dorost kardam :)",
+      
+      "omidanam khoshet biad",
+      "vaqean khoshhalam ke to zendegim hasti",
+      "to behtarin chizi hasti ke baram pish umade",
+      "omidanam hamishe khoshhal bashim va kenar ham bashim",
+      "azizammmm ❤️", 
+      "ino sob ishalla bebini va khoshhal beshi :)",
+      "khoshhal beri madrese qorbonet berm :)", 
+    ];
+
+    const terminal = document.getElementById("terminal");
+    const revealButton = document.getElementById("revealButton");
+
+    let line = 0, char = 0;
+
+    function type() {
+      if (line >= messages.length) {
+        revealButton.style.display = "block"; // دکمه ظاهر می‌شود
+        return;
+      }
+
+      if (!terminal.children[line]) {
+        const div = document.createElement("div");
+        div.className = "line";
+        terminal.appendChild(div);
+      }
+
+      const currentDiv = terminal.children[line];
+      currentDiv.textContent += messages[line][char];
+      char++;
+
+      if (char < messages[line].length) {
+        setTimeout(type, 35);
+      } else {
+        line++;
+        char = 0;
+        setTimeout(type, 400);
+      }
+
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function showSurprise() {
+      const surprise = document.getElementById("surprise");
+      const video = document.getElementById("surpriseVideo");
+      const audio = document.getElementById("loveSong");
+
+      surprise.style.display = "block";
+      setTimeout(() => { video.style.opacity = 1; video.play(); audio.play(); }, 100);
+    }
+
+    revealButton.addEventListener("click", showSurprise);
+
+    type();
+  </script>
+
+</body>
+</html>
